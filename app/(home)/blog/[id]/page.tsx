@@ -4,38 +4,46 @@ import Image from "next/image";
 import Content from "./components/Content";
 
 export async function generateStaticParams() {
-	const { data: blogs } = await fetch(
-		process.env.SITE_URL + "/api/blog?id=*"
-	).then((res) => res.json());
+	try {
+		const { data: blogs } = await fetch(
+			process.env.SITE_URL + "/api/blog?id=*"
+		).then((res) => res.json());
 
-	return blogs;
+		return blogs;
+	} catch (error) {
+		return [];
+	}
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-	const { data: blog } = (await fetch(
-		process.env.SITE_URL + "/api/blog?id=" + params.id
-	).then((res) => res.json())) as { data: IBlog };
+	try {
+		const { data: blog } = (await fetch(
+			process.env.SITE_URL + "/api/blog?id=" + params.id
+		).then((res) => res.json())) as { data: IBlog };
 
-	return {
-		title: blog?.title,
-		authors: {
-			name: "chensokheng",
-		},
-		openGraph: {
+		return {
 			title: blog?.title,
-			url: "https://rogerweb.vercel.app/blog" + params.id,
-			siteName: "Daily Blog",
-			images: blog?.image_url,
-			type: "website",
-		},
-		keywords: ["daily web coding", "chensokheng", "dailywebcoding"],
-	};
+			authors: {
+				name: "chensokheng",
+			},
+			openGraph: {
+				title: blog?.title,
+				url: "https://rogerweb.vercel.app/blog" + params.id,
+				siteName: "Daily Blog",
+				images: blog?.image_url,
+				type: "website",
+			},
+			keywords: ["daily web coding", "chensokheng", "dailywebcoding"],
+		};
+	} catch (error) {
+		return {};
+	}
 }
 
 export default async function page({ params }: { params: { id: string } }) {
 	const { data: blog } = (await fetch(
 		process.env.SITE_URL + "/api/blog?id=" + params.id
-	).then((res) => res.json())) as { data: IBlog };
+	).then((res) => res.json()).catch(() => ({data: undefined}))) as { data: IBlog };
 
 	if (!blog?.id) {
 		return <h1 className="text-white">Not found</h1>;
