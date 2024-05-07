@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { DashboardIcon, LockOpen1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { createBrowserClient } from "@supabase/ssr";
-import ManageBill from "../stripe/ManageBill";
 
 export default function Profile() {
 	const supabase = createBrowserClient(
@@ -25,7 +24,6 @@ export default function Profile() {
 		setUser(null);
 	};
 	const isAdmin = user?.role === "admin";
-	const isSub = user?.stripe_customer_id;
 
 	return (
 		<Popover>
@@ -43,9 +41,6 @@ export default function Profile() {
 					<p className="text-sm">{user?.display_name}</p>
 					<p className="text-sm text-gray-500">{user?.email}</p>
 				</div>
-				{!isAdmin && isSub && (
-					<ManageBill customerId={user?.stripe_customer_id!} />
-				)}
 
 				{isAdmin && (
 					<Link href="/dashboard">

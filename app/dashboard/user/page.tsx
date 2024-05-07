@@ -36,9 +36,6 @@ export default async function page() {
 								<SubscriptionStatus
 									status={user.subscription_status}
 								/>
-								<div className="flex items-center">
-									<h1>{user.stripe_customer_id}</h1>
-								</div>
 							</div>
 						);
 					})}

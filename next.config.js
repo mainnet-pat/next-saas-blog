@@ -16,6 +16,17 @@ const nextConfig = {
 			},
 		],
 	},
+  webpack: (config, { isServer }) => {
+    config.externals = [...config.externals, ({ request }, callback) => {
+      if (/^node-gyp-build$/.test(request)) {
+        return callback(null, request);
+      }
+      callback();
+    }];
+
+
+    return config;
+  },
 };
 
 module.exports = nextConfig;
