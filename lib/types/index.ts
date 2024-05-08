@@ -6,6 +6,8 @@ export type IBlog = {
 	is_premium: boolean;
 	content: string;
 	is_published: boolean;
+	addresses: any;
+	target_usd: number;
 };
 
 export type IBlogDetial = {
@@ -20,6 +22,8 @@ export type IBlogDetial = {
 		content: string;
 		created_at: string;
 	};
+	addresses: any;
+	target_usd: number;
 } | null;
 
 export type IBlogForm = {

@@ -2,6 +2,7 @@ import React from "react";
 import { IBlog } from "@/lib/types";
 import Image from "next/image";
 import Content from "./components/Content";
+import Addresses from "./components/Addresses";
 
 export async function generateStaticParams() {
 	try {
@@ -71,6 +72,7 @@ export default async function page({ params }: { params: { id: string } }) {
 				/>
 			</div>
 			<Content blogId={params.id} />
+			<Addresses addresses={blog?.addresses} blog={blog}></Addresses>
 		</div>
 	);
 }
