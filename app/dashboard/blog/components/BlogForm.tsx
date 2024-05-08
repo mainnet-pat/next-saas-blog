@@ -27,7 +27,7 @@ import { ReactNode, useState, useTransition } from "react";
 import { IBlogDetial, IBlogForm } from "@/lib/types";
 import { Switch } from "@/components/ui/switch";
 import { BsSave } from "react-icons/bs";
-import { BlogFormSchema, BlogFormSchemaType } from "../schema";
+import { BlogFormSchema, BlogFormSchemaType, SupportedChains } from "../schema";
 import { useUser } from "@/lib/store/user";
 
 export default function BlogForm({
@@ -41,6 +41,7 @@ export default function BlogForm({
 	const [isPreview, setPreivew] = useState(false);
 	const user = useUser((state) => state.user);
 
+	const chains = SupportedChains;
 	const form = useForm<z.infer<typeof BlogFormSchema>>({
 		mode: "all",
 		resolver: zodResolver(BlogFormSchema),
@@ -53,14 +54,22 @@ export default function BlogForm({
 			addresses: defaultBlog?.addresses,
 			target_usd: defaultBlog?.target_usd,
 			user_id: defaultBlog?.user_id,
+			...chains.map((chain) => ({
+					[`addresses_${chain}`]: defaultBlog?.addresses[chain],
+				})).reduce((acc, curr) => ({ ...acc, ...curr }), {}),
 		},
 	});
-	console.log(form.formState);
 
 	const onSubmit = (data: z.infer<typeof BlogFormSchema>) => {
 		startTransition(() => {
-			console.log(user?.id!);
 			data.user_id = user?.id!;
+			SupportedChains.forEach((chain) => {
+				if (data[`addresses_${chain}`]) {
+					data.addresses[chain] = data[`addresses_${chain}`];
+				}
+				delete data[`addresses_${chain}`];
+			});
+			console.log(data);
 			onHandleSubmit(data);
 		});
 	};
@@ -314,6 +323,112 @@ export default function BlogForm({
 						</FormItem>
 					)}
 				/>
+
+				<FormField
+					control={form.control}
+					name="target_usd"
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<>
+									<div
+										className={cn(
+											"w-full flex break-words p-2 gap-2",
+											isPreview
+												? "divide-x-0"
+												: "divide-x"
+										)}
+									>
+										<Input
+											placeholder="Campaign Target $USD"
+											{...field}
+											autoFocus
+											className={cn(
+												"border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500",
+												isPreview
+													? "w-0 p-0"
+													: "w-full lg:w-1/2"
+											)}
+										/>
+										<div
+											className={cn(
+												"lg:px-10",
+												isPreview
+													? "mx-auto w-full lg:w-4/5 "
+													: " w-1/2 lg:block hidden "
+											)}
+										>
+											<h1 className="text-lg font-medium dark:text-gray-200">
+												{form.getValues().target_usd}
+											</h1>
+										</div>
+									</div>
+								</>
+							</FormControl>
+
+							{form.getFieldState("target_usd").invalid &&
+								form.getValues().target_usd && (
+									<div className="px-2">
+										<FormMessage />
+									</div>
+								)}
+						</FormItem>
+					)}
+				/>
+				{chains.map((chain) => (
+					<FormField
+						key={chain}
+						control={form.control}
+						name={`addresses_${chain}` as any}
+						render={({ field }) => (
+							<FormItem>
+								<FormControl>
+									<div
+										className={cn(
+											"w-full flex break-words p-2 gap-2 items-center",
+											isPreview
+												? "divide-x-0"
+												: "divide-x",
+											isPreview && !field.value ? "hidden" : ""
+										)}
+									>
+										<Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} width={24} height={24} />
+										<Input
+											placeholder={`${chain.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()).replace(' ', '')} address`}
+											{...field}
+											autoFocus
+											className={cn(
+												"border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500",
+												isPreview
+													? "w-0 p-0"
+													: "w-full lg:w-1/2"
+											)}
+										/>
+										<div
+											className={cn(
+												"lg:px-10",
+												isPreview
+													? "mx-auto w-full lg:w-4/5 "
+													: " w-1/2 lg:block hidden "
+											)}
+										>
+											<h1 className="text-lg font-medium dark:text-gray-200">
+												{(form.getValues() as any)[`addresses_${chain}`]}
+											</h1>
+										</div>
+									</div>
+								</FormControl>
+
+								{form.getFieldState(`addresses_${chain}` as any).invalid &&
+									(form.getValues() as any)[`addresses_${chain}`] && (
+										<div className="px-2">
+											<FormMessage />
+										</div>
+									)}
+							</FormItem>
+						)}
+					/>
+				))}
 			</form>
 		</Form>
 	);

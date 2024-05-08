@@ -6,6 +6,8 @@ import { IBlog } from "@/lib/types";
 import moment from "moment";
 import { Switch } from "@/components/ui/switch";
 import { RocketIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import { Progress } from "@/components/ui/progress";
 
 const filterData = (data: ExplData, showZeroBalances: boolean = false): ExplData => {
   return Object.fromEntries(Object.entries(data).map(([chain, { totalRaised, allEvents }]) => {
@@ -62,6 +64,7 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
       <div>User is raising funds on following blockcains:</div>
       { Object.entries(addresses).map(([chain, address]: any) => chain).join(", ")}
       <div>Total raised ${totalRaisedUsd} of ${blog.target_usd}</div>
+      <Progress value={totalRaisedUsd/blog.target_usd*100} max={blog.target_usd} />
       {/* { JSON.stringify(addresses) } */}
       <div className="flex justify-between gap-1 border p-2 rounded-md">
         <div className="flex items-center">History</div>
@@ -80,10 +83,13 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
       { Object.entries(filteredData).map(([chain, data]) => {
         return (
           <div key={chain} className="mt-3">
-            <div>{chain}</div>
-            { data.allEvents.map((event) =>
+            <div className="flex items-center gap-2">
+              <Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} width={24} height={24} />
+              {chain}
+            </div>
+            { data.allEvents.map((event,index) =>
               (<>
-                <div>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
+                <div key={`${chain}-${index}`}>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
               </>))
             }
           </div>
