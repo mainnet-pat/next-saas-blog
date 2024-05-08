@@ -13,7 +13,7 @@ export default function CreateForm() {
 	const router = useRouter();
 
 	const onHandleSubmit = async (data: BlogFormSchemaType) => {
-		const result = JSON.parse(await createBlog(data));
+		const result = JSON.parse(await createBlog(data as any));
 
 		const { error } = result as PostgrestSingleResponse<null>;
 		if (error?.message) {

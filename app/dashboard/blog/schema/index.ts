@@ -34,19 +34,6 @@ export const BlogFormSchema = z
 			message: "Target USD must be greater than 0",
 		}),
 		addresses: z.object({}),
-		// "addresses_arbitrum-one": z.string().optional(),
-		// "addresses_avalanche": z.string().optional(),
-		// "addresses_bitcoin-cash": z.string().optional(),
-		// "addresses_bitcoin": z.string().optional(),
-		// "addresses_bnb": z.string().optional(),
-		// "addresses_cardano": z.string().optional(),
-		// "addresses_dogecoin": z.string().optional(),
-		// "addresses_ethereum": z.string().optional(),
-		// "addresses_litecoin": z.string().optional(),
-		// "addresses_polygon": z.string().optional(),
-		// "addresses_solana": z.string().optional(),
-		// "addresses_ton": z.string().optional(),
-		// "addresses_tron": z.string().optional(),
 		...SupportedChains.reduce((acc: any, chain: string) => {
 			acc[`addresses_${chain}`] = z.string().optional();
 			return acc;
