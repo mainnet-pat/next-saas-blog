@@ -28,6 +28,7 @@ import { IBlogDetial, IBlogForm } from "@/lib/types";
 import { Switch } from "@/components/ui/switch";
 import { BsSave } from "react-icons/bs";
 import { BlogFormSchema, BlogFormSchemaType } from "../schema";
+import { useUser } from "@/lib/store/user";
 
 export default function BlogForm({
 	onHandleSubmit,
@@ -38,6 +39,7 @@ export default function BlogForm({
 }) {
 	const [isPending, startTransition] = useTransition();
 	const [isPreview, setPreivew] = useState(false);
+	const user = useUser((state) => state.user);
 
 	const form = useForm<z.infer<typeof BlogFormSchema>>({
 		mode: "all",
@@ -48,11 +50,17 @@ export default function BlogForm({
 			image_url: defaultBlog?.image_url,
 			is_premium: defaultBlog?.is_premium,
 			is_published: defaultBlog?.is_published,
+			addresses: defaultBlog?.addresses,
+			target_usd: defaultBlog?.target_usd,
+			user_id: defaultBlog?.user_id,
 		},
 	});
+	console.log(form.formState);
 
 	const onSubmit = (data: z.infer<typeof BlogFormSchema>) => {
 		startTransition(() => {
+			console.log(user?.id!);
+			data.user_id = user?.id!;
 			onHandleSubmit(data);
 		});
 	};

@@ -87,6 +87,9 @@ export const defaultCreateBlog: IBlogDetial = {
 		content: "",
 		blog_id: "",
 	},
+	user_id: "",
+	addresses: {},
+	target_usd: 100,
 };
 export const users = [
 	{

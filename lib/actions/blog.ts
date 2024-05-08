@@ -13,6 +13,9 @@ export async function createBlog(data: {
 	image_url: string;
 	is_premium: boolean;
 	is_published: boolean;
+	addresses: Record<string, string>;
+	target_usd: number;
+	user_id: string;
 }) {
 	const { ["content"]: excludedKey, ...blog } = data;
 

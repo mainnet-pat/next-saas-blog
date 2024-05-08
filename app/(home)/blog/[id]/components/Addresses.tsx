@@ -51,7 +51,7 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
 
   useEffect(() => {
     setFilteredData(filterData(rawData, showZeroBalances));
-  }, [showZeroBalances]);
+  }, [showZeroBalances, rawData]);
 
 	if (loading) {
 		return <BlogContentLoading />;

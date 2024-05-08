@@ -13,6 +13,11 @@ export const BlogFormSchema = z
 		}),
 		is_premium: z.boolean(),
 		is_published: z.boolean(),
+		user_id: z.string(),
+		target_usd: z.number().gt(0, {
+			message: "Target USD must be greater than 0",
+		}),
+		addresses: z.object({}),
 	})
 	.refine(
 		(data) => {

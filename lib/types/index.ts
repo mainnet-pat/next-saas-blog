@@ -8,6 +8,7 @@ export type IBlog = {
 	is_published: boolean;
 	addresses: any;
 	target_usd: number;
+	user_id: string;
 };
 
 export type IBlogDetial = {
@@ -24,6 +25,7 @@ export type IBlogDetial = {
 	};
 	addresses: any;
 	target_usd: number;
+	user_id: string;
 } | null;
 
 export type IBlogForm = {
@@ -48,6 +50,6 @@ export type Iuser = {
 	image_url: string;
 	role: string;
 	stripe_customer_id: string | null;
-	stripe_subscriptoin_id: string | null;
+	stripe_subscription_id: string | null;
 	subscription_status: boolean;
 } | null;
