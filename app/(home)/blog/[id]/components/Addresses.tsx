@@ -114,7 +114,7 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
           return data.allEvents.length > 0 && (
             <div key={chain} className="mt-3">
               <div className="flex items-center gap-2">
-                <Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} width={24} height={24} />
+                <Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} title={chain} width={24} height={24} />
                 {chain}
               </div>
               { data.allEvents.map((event,index) =>
@@ -130,7 +130,7 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
           return (
             <div key={`event-${index}`} className="mt-1">
               <div className="flex items-center gap-2">
-                <Image src={`https://3xpl.com/3xpl-assets/${event.chain}/logo_dark.svg`} alt={event.chain} width={24} height={24} />
+                <Image src={`https://3xpl.com/3xpl-assets/${event.chain}/logo_dark.svg`} alt={event.chain} title={event.chain} width={24} height={24} />
                 <div>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
               </div>
             </div>

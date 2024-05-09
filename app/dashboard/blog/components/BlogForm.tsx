@@ -391,7 +391,7 @@ export default function BlogForm({
 											isPreview && !field.value ? "hidden" : ""
 										)}
 									>
-										<Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} width={24} height={24} />
+										<Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} title={chain} width={24} height={24} />
 										<Input
 											placeholder={`${chain.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()).replace(' ', '')} address`}
 											{...field}
