@@ -2,6 +2,7 @@ import { icons } from "@/lib/icon";
 import React from "react";
 import Markdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 
 import CopyButton from "./CopyButton";
 import "highlight.js/styles/atom-one-dark.min.css";
@@ -18,7 +19,7 @@ export default function MarkdownPreview({
 	return (
 		<Markdown
 			className={cn("dark:text-gray-200 space-y-8", className)}
-			rehypePlugins={[rehypeHighlight]}
+			rehypePlugins={[rehypeHighlight, rehypeRaw]}
 			components={{
 				h1: ({ node, ...props }) => {
 					return <h1 {...props} className="text-3xl font-bold" />;
