@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { BlogContentLoading } from "./Skeleton";
-import { ExplData, parse3xplData } from "./3xpl";
+import { ExplData, ExplEvent, parse3xplData } from "./3xpl";
 import { IBlog } from "@/lib/types";
 import moment from "moment";
 import { Switch } from "@/components/ui/switch";
@@ -21,12 +21,19 @@ const filterData = (data: ExplData, showZeroBalances: boolean = false): ExplData
   })) as ExplData;
 }
 
+const filterEvents = (events: ExplEvent[], showZeroBalances: boolean = false): ExplEvent[] => {
+  return showZeroBalances ? events : events.filter(({ amountUsd }) => amountUsd > 0);
+}
+
 export default function Content({ addresses, blog }: { addresses: any, blog: IBlog }) {
 	const [loading, setLoading] = useState(true);
   const [totalRaisedUsd, setTotalRaisedUsd] = useState(0);
   const [rawData, setRawData] = useState<ExplData>({});
   const [filteredData, setFilteredData] = useState<ExplData>({});
   const [showZeroBalances, setShowZeroBalances] = useState(false);
+  const [showPlainHistory, setShowPlainHistory] = useState(true);
+  const [rawEvents, setRawEvents] = useState<ExplEvent[]>([]);
+  const [mergedEvents, setMergedEvents] = useState<ExplEvent[]>([]);
 
 	useEffect(() => {
     (async () => {
@@ -37,13 +44,20 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
         return data;
       }));
 
+      let merged: ExplEvent[] = [];
+
       const parsedData = parse3xplData(result);
-      for (const { totalRaisedUsd } of Object.values(parsedData)) {
+      for (const { totalRaisedUsd, allEvents } of Object.values(parsedData)) {
         setTotalRaisedUsd((prev) => prev + totalRaisedUsd);
+        merged = [...merged, ...allEvents];
       }
 
       setRawData(parsedData);
       setFilteredData(filterData(parsedData, showZeroBalances));
+
+      merged.sort((a, b) => b.time.localeCompare(a.time));
+      setRawEvents(merged);
+      setMergedEvents(filterEvents(merged, showZeroBalances));
 
       setLoading(false);
     })();
@@ -53,6 +67,7 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
 
   useEffect(() => {
     setFilteredData(filterData(rawData, showZeroBalances));
+    setMergedEvents(filterEvents(rawEvents, showZeroBalances));
   }, [showZeroBalances, rawData]);
 
 	if (loading) {
@@ -68,33 +83,60 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
       {/* { JSON.stringify(addresses) } */}
       <div className="flex justify-between gap-1 border p-2 rounded-md">
         <div className="flex items-center">History</div>
-        <div className="flex items-center gap-1 p-2">
-          <RocketIcon />
+        <div className="flex justify-end">
+          <div className="flex items-center gap-1 p-2">
+            <RocketIcon />
 
-          <span className="text-sm">
-            Show Unknown Tokens
-          </span>
-          <Switch
-            checked={showZeroBalances}
-            onCheckedChange={() => setShowZeroBalances(!showZeroBalances)}
-          />
+            <span className="text-sm">
+              Show Plain History
+            </span>
+            <Switch
+              checked={showPlainHistory}
+              onCheckedChange={() => setShowPlainHistory(!showPlainHistory)}
+            />
+          </div>
+          <div className="flex items-center gap-1 p-2">
+            <RocketIcon />
+
+            <span className="text-sm">
+              Show Unknown Tokens
+            </span>
+            <Switch
+              checked={showZeroBalances}
+              onCheckedChange={() => setShowZeroBalances(!showZeroBalances)}
+            />
+          </div>
         </div>
       </div>
-      { Object.entries(filteredData).map(([chain, data]) => {
-        return (
-          <div key={chain} className="mt-3">
-            <div className="flex items-center gap-2">
-              <Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} width={24} height={24} />
-              {chain}
+
+      {!showPlainHistory ? (
+        Object.entries(filteredData).sort((a,b) => a[0].localeCompare(b[0])).map(([chain, data]) => {
+          return data.allEvents.length > 0 && (
+            <div key={chain} className="mt-3">
+              <div className="flex items-center gap-2">
+                <Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} width={24} height={24} />
+                {chain}
+              </div>
+              { data.allEvents.map((event,index) =>
+                (<>
+                  <div key={`${chain}-${index}`}>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
+                </>))
+              }
             </div>
-            { data.allEvents.map((event,index) =>
-              (<>
-                <div key={`${chain}-${index}`}>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
-              </>))
-            }
-          </div>
-        );
-      }) }
+          );
+        })
+      ) : (
+        mergedEvents.map((event, index) => {
+          return (
+            <div key={`event-${index}`} className="mt-1">
+              <div className="flex items-center gap-2">
+                <Image src={`https://3xpl.com/3xpl-assets/${event.chain}/logo_dark.svg`} alt={event.chain} width={24} height={24} />
+                <div>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
+              </div>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 }

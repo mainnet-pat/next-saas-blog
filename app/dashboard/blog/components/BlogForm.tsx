@@ -69,7 +69,6 @@ export default function BlogForm({
 				}
 				delete data[`addresses_${chain}`];
 			});
-			console.log(data);
 			onHandleSubmit(data);
 		});
 	};

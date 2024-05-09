@@ -1,9 +1,18 @@
-export type Currency = {
+export type ExplCurrency = {
   address: string,
   name: string,
   symbol: string,
   type: string,
-  decimals: number
+  decimals: number,
+}
+
+export type ExplEvent = {
+  chain: string,
+  time: string,
+  amountRaw: bigint,
+  amount: number,
+  amountUsd: number,
+  currency: ExplCurrency,
 }
 
 export type ExplData = Record<string, {
@@ -12,15 +21,9 @@ export type ExplData = Record<string, {
     amountRaw: bigint,
     amount: number,
     amountUsd: number,
-    currency: Currency,
+    currency: ExplCurrency,
   }},
-  allEvents: Array<{
-    time: string,
-    amountRaw: bigint,
-    amount: number,
-    amountUsd: number,
-    currency: Currency,
-  }>
+  allEvents: Array<ExplEvent>
 }>;
 
 export const parse3xplData = (responseArray: any[]) => {
@@ -58,6 +61,7 @@ export const parse3xplData = (responseArray: any[]) => {
             amount,
             amountRaw,
             amountUsd,
+            chain,
             currency: {
               address: currency.split("/")[1] || currency,
               ...address.library.currencies[currency]
