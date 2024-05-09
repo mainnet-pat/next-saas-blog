@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { Database } from "@/lib/types/supabase";
+import { createClient } from "@/utils/supabase/server";
 export async function GET(request: Request) {
 	const requestUrl = new URL(request.url);
 	const isAuth = cookies().get("supabase-auth-token");
@@ -14,6 +15,10 @@ export async function GET(request: Request) {
 	const code = searchParams.get("code");
 	const next = searchParams.get("next") ?? "/";
 
+	if (code) {
+		const supabase = createClient()
+		await supabase.auth.exchangeCodeForSession(code)
+	}
 	if (code) {
 		const cookieStore = cookies();
 		const supabase = createServerClient<Database>(
