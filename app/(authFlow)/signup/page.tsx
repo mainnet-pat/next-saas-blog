@@ -37,13 +37,13 @@ export default async function Signup({
       email,
       password,
       options: {
-        emailRedirectTo: `${origin}/callback`,
+        emailRedirectTo: `${origin}/auth/callback`,
       },
     });
 
     if (error) {
       console.log(error)
-      return redirect('/signup?message=Could not authenticate user' + error.message);
+      return redirect('/signup?message=Could not authenticate user. ' + error.message);
     }
 
     return redirect(

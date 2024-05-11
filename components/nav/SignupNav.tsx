@@ -3,16 +3,16 @@ import { Button } from '../ui/button'
 import Link from 'next/link'
 import LoginForm from './LoginForm'
 
-const SingupNav = () => {
+const SignupNav = () => {
   return (
     <>
         <div>
             <LoginForm/>
         </div>
         <div>
-            <Link href={"/singup"}>
+            <Link href={"/signup"}>
                 <Button>
-                    SingUp
+                    SignUp
                 </Button>
             </Link>
         </div>
@@ -20,4 +20,4 @@ const SingupNav = () => {
   )
 }
 
-export default SingupNav
+export default SignupNav

@@ -2,11 +2,9 @@
 import React from "react";
 import HoverUnderLine from "./HoverUnderLine";
 import Link from "next/link";
-import LoginForm from "./LoginForm";
 import { useUser } from "@/lib/store/user";
 import Profile from "./Profile";
-import { Button } from "../ui/button";
-import SingupNav from "./SingupNav";
+import SignupNav from "./SignupNav";
 
 export default function Navbar() {
 	const user = useUser((state) => state.user);
@@ -19,7 +17,7 @@ export default function Navbar() {
 				</Link>
 			</HoverUnderLine>
 			<div className="flex justify-content-between space-x-4">
-				{user ? <Profile /> : <SingupNav />}
+				{user ? <Profile /> : <SignupNav />}
 			</div>
 		</nav>
 	);
