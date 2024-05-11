@@ -5,7 +5,9 @@ import { Database } from "@/lib/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 export async function GET(request: Request) {
 	const requestUrl = new URL(request.url);
-	const isAuth = cookies().get("supabase-auth-token");
+	const isAuth = cookies().get("supabase-auth-token") || cookies().get(
+		"sb-lrmfxhevtqffddrhwwlm-auth-token"
+	);
 
 	if (isAuth) {
 		return NextResponse.redirect(requestUrl.origin);
@@ -17,7 +19,9 @@ export async function GET(request: Request) {
 
 	if (code) {
 		const supabase = createClient()
-		await supabase.auth.exchangeCodeForSession(code)
+		try {
+			await supabase.auth.exchangeCodeForSession(code)
+		} catch {}
 	}
 	if (code) {
 		const cookieStore = cookies();
@@ -39,8 +43,11 @@ export async function GET(request: Request) {
 			}
 		);
 
-		const { error } = await supabase.auth.exchangeCodeForSession(code);
-
+		let error = null;
+		try {
+			const response = await supabase.auth.exchangeCodeForSession(code);
+			error = response.error;
+		} catch {};
 		if (!error) {
 			return NextResponse.redirect(requestUrl.origin + next);
 		}

@@ -35,7 +35,7 @@ export default async function Login({
     });
 
     if (error) {
-      return redirect('/login?message=Could not authenticate user');
+      return redirect('/login?message=Could not authenticate user. ' + error.message);
     }
 
     return redirect('/');
