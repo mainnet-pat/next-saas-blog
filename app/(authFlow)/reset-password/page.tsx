@@ -27,9 +27,13 @@ export default async function ResetPassword({
 
     if (searchParams.code) {
       const supabase = createClient();
-      const { error } = await supabase.auth.exchangeCodeForSession(
-        searchParams.code
-      );
+      let error = null;
+      try {
+        const response = await supabase.auth.exchangeCodeForSession(
+          searchParams.code
+        );
+        error = response.error;
+      } catch {}
 
       if (error) {
         return redirect(
@@ -64,7 +68,7 @@ export default async function ResetPassword({
           <label className="text-md" htmlFor="password">
             New Password
           </label>
-          <Input             
+          <Input
             className="rounded-md px-4 py-2 bg-inherit border mb-6"
             type="password"
             name="password"
@@ -74,7 +78,7 @@ export default async function ResetPassword({
           <label className="text-md" htmlFor="password">
             Confirm New Password
           </label>
-          <Input            
+          <Input
             className="rounded-md px-4 py-2 bg-inherit border mb-6"
             type="password"
             name="confirmPassword"
