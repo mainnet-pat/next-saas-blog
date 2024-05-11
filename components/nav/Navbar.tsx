@@ -2,9 +2,9 @@
 import React from "react";
 import HoverUnderLine from "./HoverUnderLine";
 import Link from "next/link";
-import LoginForm from "./LoginForm";
 import { useUser } from "@/lib/store/user";
 import Profile from "./Profile";
+import SignupNav from "./SignupNav";
 
 export default function Navbar() {
 	const user = useUser((state) => state.user);
@@ -16,7 +16,9 @@ export default function Navbar() {
 					DailyMedia
 				</Link>
 			</HoverUnderLine>
-			{user ? <Profile /> : <LoginForm />}
+			<div className="flex justify-content-between space-x-4">
+				{user ? <Profile /> : <SignupNav />}
+			</div>
 		</nav>
 	);
 }

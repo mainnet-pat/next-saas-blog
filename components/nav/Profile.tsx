@@ -9,13 +9,10 @@ import { useUser } from "@/lib/store/user";
 import { Button } from "@/components/ui/button";
 import { DashboardIcon, LockOpen1Icon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { createBrowserClient } from "@supabase/ssr";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Profile() {
-	const supabase = createBrowserClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-	);
+	const supabase = createClient();
 	const user = useUser((state) => state.user);
 	const setUser = useUser((state) => state.setUser);
 

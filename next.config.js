@@ -18,6 +18,10 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "3xpl.com",
 			},
+			{
+				protocol: "https",
+				hostname: "rogerweb.vercel.app",
+			},
 		],
 	},
   webpack: (config, { isServer }) => {
