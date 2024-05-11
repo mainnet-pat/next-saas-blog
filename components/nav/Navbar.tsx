@@ -19,7 +19,6 @@ export default function Navbar() {
 			</HoverUnderLine>
 			<div>
 				{user ? <Profile /> : <LoginForm />}
-				{user ? <Profile/> : <Link href='/auth/singup'>Register</Link>}
 			</div>
 		</nav>
 	);

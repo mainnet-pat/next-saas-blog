@@ -42,7 +42,7 @@ export default async function Signup({
 
     if (error) {
       console.log(error)
-      return redirect('/auth/signup?message=Could not authenticate user');
+      return redirect('/auth/signup?message=Could not authenticate user. ' + error.message);
     }
 
     return redirect(
