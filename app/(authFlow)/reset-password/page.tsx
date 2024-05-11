@@ -33,7 +33,7 @@ export default async function ResetPassword({
 
       if (error) {
         return redirect(
-          `/auth/reset-password?message=Unable to reset Password. Link expired!`
+          `/reset-password?message=Unable to reset Password. Link expired!`
         );
       }
     }
@@ -45,12 +45,12 @@ export default async function ResetPassword({
     if (error) {
       console.log(error);
       return redirect(
-        `/auth/reset-password?message=Unable to reset Password. Try again!`
+        `/reset-password?message=Unable to reset Password. Try again!`
       );
     }
 
     redirect(
-      `/auth/login?message=Your Password has been reset successfully. Sign in.`
+      `/login?message=Your Password has been reset successfully. Sign in.`
     );
   };
 

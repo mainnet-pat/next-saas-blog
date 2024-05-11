@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import LoginForm from '@/components/nav/LoginForm';
 
 export default async function Signup({
   searchParams,
@@ -29,24 +30,24 @@ export default async function Signup({
     const confirmPassword = formData.get('confirmPassword') as string;
     const supabase = createClient();
     if (password !== confirmPassword) {
-      return redirect('/auth/signup?message=Passwords do not match');
+      return redirect('/signup?message=Passwords do not match');
     }
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${origin}/auth/callback`,
+        emailRedirectTo: `${origin}/callback`,
       },
     });
 
     if (error) {
       console.log(error)
-      return redirect('/auth/signup?message=Could not authenticate user');
+      return redirect('/signup?message=Could not authenticate user');
     }
 
     return redirect(
-      `/auth/confirm?message=Check email(${email}) to continue sign in process`
+      `/confirm?message=Check email(${email}) to continue sign in process`
     );
   };
 
@@ -101,11 +102,12 @@ export default async function Signup({
         </form>
 
         <Link
-          href="/auth/login"
+          href="/login"
           className="rounded-md no-underline text-foreground text-sm"
         >
           Already have an account? Sign In
         </Link>
+        <LoginForm/>
       </div>
     </div>
   );

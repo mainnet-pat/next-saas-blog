@@ -1,11 +1,13 @@
-import Link from 'next/link';
-import { headers } from 'next/headers';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
-import { Input } from '@/components/ui/input';
+import LoginForm from '@/components/nav/LoginForm';
+import Header from '@/components/nav/Navbar';
 import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { createClient } from '@/utils/supabase/server';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-export default async function ForgotPassword({
+export default async function Login({
   searchParams,
 }: {
   searchParams: { message: string };
@@ -20,24 +22,23 @@ export default async function ForgotPassword({
     return redirect('/');
   }
 
-  const confirmReset = async (formData: FormData) => {
+  const signIn = async (formData: FormData) => {
     'use server';
 
-    const origin = headers().get('origin');
     const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
     const supabase = createClient();
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${origin}/reset-password`,
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
 
     if (error) {
-      return redirect('/forgot-password?message=Could not authenticate user');
+      return redirect('/login?message=Could not authenticate user');
     }
 
-    return redirect(
-      '/confirm?message=Password Reset link has been sent to your email address'
-    );
+    return redirect('/');
   };
 
   return (
@@ -45,20 +46,29 @@ export default async function ForgotPassword({
       <div className="w-full px-8 sm:max-w-md mx-auto mt-4">
         <form
           className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground mb-4"
-          action={confirmReset}
+          action={signIn}
         >
           <label className="text-md" htmlFor="email">
-            Enter Email Address
+            Email
           </label>
-          <Input             
+          <Input 
             className="rounded-md px-4 py-2 bg-inherit border mb-6"
             name="email"
             placeholder="you@example.com"
             required>
           </Input>
+          <label className="text-md" htmlFor="password">
+            Password
+          </label>
+          <Input className="rounded-md px-4 py-2 bg-inherit border mb-6"
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            required>
+          </Input>
 
           <Button className="bg-indigo-700 rounded-md px-4 py-2 text-foreground mb-2">
-            Confirm
+            Sign In
           </Button>
 
           {searchParams?.message && (
@@ -69,11 +79,22 @@ export default async function ForgotPassword({
         </form>
 
         <Link
-          href="/auth/login"
+          href="/forgot-password"
+          className="rounded-md no-underline text-indigo-400 text-sm "
+        >
+          Forgotten Password.
+        </Link>
+
+        <br />
+        <br />
+
+        <Link
+          href="/signup"
           className="rounded-md no-underline text-foreground text-sm"
         >
-          Remember your password? Sign in
+          Don't have an Account? Sign Up
         </Link>
+        <LoginForm/>
       </div>
     </div>
   );

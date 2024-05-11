@@ -1,22 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { createBrowserClient } from "@supabase/ssr";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { createClient } from "@/utils/supabase/client";
 
 export default function LoginForm() {
 	const pathname = usePathname();
-	const supabase = createBrowserClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-	);
+	const supabase = createClient();
 
 	const handleLogin = () => {
 		supabase.auth.signInWithOAuth({
 			provider: "github",
 			options: {
-				redirectTo: `${location.origin}/auth/callback?next=${pathname}`,
+				redirectTo: `${location.origin}/callback?next=${pathname}`,
 			},
 		});
 	};

@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm";
 import { useUser } from "@/lib/store/user";
 import Profile from "./Profile";
 import { Button } from "../ui/button";
+import SingupNav from "./SingupNav";
 
 export default function Navbar() {
 	const user = useUser((state) => state.user);
@@ -17,9 +18,8 @@ export default function Navbar() {
 					DailyMedia
 				</Link>
 			</HoverUnderLine>
-			<div>
-				{user ? <Profile /> : <LoginForm />}
-				{user ? <Profile/> : <Link href='/auth/singup'>Register</Link>}
+			<div className="flex justify-content-between space-x-4">
+				{user ? <Profile /> : <SingupNav />}
 			</div>
 		</nav>
 	);
