@@ -5,10 +5,12 @@ import { ChangeEvent } from "react";
 
 export default function SwitchForm({
 	checked,
+	disabled,
 	onSubmit,
 	name,
 }: {
 	checked: boolean;
+	disabled: boolean;
 	onSubmit: () => Promise<string>;
 	name: string;
 }) {
@@ -23,7 +25,7 @@ export default function SwitchForm({
 	};
 	return (
 		<form onSubmit={handleonSubmit}>
-			<Switch type="submit" checked={checked} className="bg-green-500" />
+			<Switch disabled={disabled} type="submit" checked={checked} className="bg-green-500" />
 		</form>
 	);
 }

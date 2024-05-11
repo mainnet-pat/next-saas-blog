@@ -19,7 +19,7 @@ export default function Blog() {
 				</Link>
 			</div>
 
-			<BlogTable />
+			<BlogTable kind="own"/>
 		</div>
 	);
 }

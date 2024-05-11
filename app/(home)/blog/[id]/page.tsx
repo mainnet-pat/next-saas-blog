@@ -25,16 +25,16 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 		return {
 			title: blog?.title,
 			authors: {
-				name: "chensokheng",
+				name: "arbius",
 			},
 			openGraph: {
 				title: blog?.title,
-				url: "https://rogerweb.vercel.app/blog" + params.id,
-				siteName: "Daily Blog",
+				url: "https://rogerweb.vercel.app/blog/" + params.id,
+				siteName: "RogerWeb",
 				images: blog?.image_url,
 				type: "website",
 			},
-			keywords: ["daily web coding", "chensokheng", "dailywebcoding"],
+			keywords: ["rogerweb", "arbius"],
 		};
 	} catch (error) {
 		return {};

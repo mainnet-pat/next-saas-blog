@@ -1,11 +1,16 @@
 "use client";
+import { useUser } from "@/lib/store/user";
+import { createSupabaseServerClient } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
-import { PersonIcon, ReaderIcon } from "@radix-ui/react-icons";
+import { ArchiveIcon, PersonIcon, ReaderIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function NavLinks() {
+	const user = useUser((state) => state.user);
+	const isAdmin = user?.role === "admin";
+
 	const pathname = usePathname();
 	const links = [
 		{
@@ -13,12 +18,18 @@ export default function NavLinks() {
 			Icon: ReaderIcon,
 			text: "dashboard",
 		},
-
+		...(isAdmin ? [
 		{
-			href: "/dashboard/user",
-			Icon: PersonIcon,
-			text: "users",
+			href: "/dashboard/moderation",
+			Icon: ArchiveIcon,
+			text: "moderation",
 		},
+		// {
+		// 	href: "/dashboard/user",
+		// 	Icon: PersonIcon,
+		// 	text: "users",
+		// }
+		] :[]),
 	];
 
 	return (

@@ -17,7 +17,7 @@ import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { toast } from "@/components/ui/use-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { cn } from "@/lib/utils";
-export default function DeleteAlert({ id }: { id: string }) {
+export default function DeleteAlert({ id, disabled }: { id: string, disabled: boolean }) {
 	const [isPending, startTransition] = useTransition();
 
 	const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
@@ -46,7 +46,7 @@ export default function DeleteAlert({ id }: { id: string }) {
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
-				<Button className="flex gap-2 items-center" variant="outline">
+				<Button disabled={disabled} className="flex gap-2 items-center" variant="outline">
 					<TrashIcon />
 					Delete
 				</Button>

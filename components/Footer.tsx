@@ -27,7 +27,7 @@ export default function Footer() {
 				</div>
 
 				<h1 className="text-sm">
-					&copy; 2023 Chensokheng.All right reserved
+					&copy; 2024 Arbius. All rights reserved
 				</h1>
 			</div>
 		</footer>

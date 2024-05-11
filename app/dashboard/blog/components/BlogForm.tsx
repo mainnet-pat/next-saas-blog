@@ -62,10 +62,14 @@ export default function BlogForm({
 
 	const onSubmit = (data: z.infer<typeof BlogFormSchema>) => {
 		startTransition(() => {
-			data.user_id = user?.id!;
+			data.user_id = data.user_id || user?.id!;
 			SupportedChains.forEach((chain) => {
 				if (data[`addresses_${chain}`]) {
-					data.addresses[chain] = data[`addresses_${chain}`];
+					if (chain === "bitcoin-cash") {
+						data.addresses[chain] = data[`addresses_${chain}`].split(":")[1] || data[`addresses_${chain}`];
+					} else {
+						data.addresses[chain] = data[`addresses_${chain}`];
+					}
 				}
 				delete data[`addresses_${chain}`];
 			});
@@ -104,47 +108,6 @@ export default function BlogForm({
 								</>
 							)}
 						</span>
-						<FormField
-							control={form.control}
-							name="is_premium"
-							render={({ field }) => (
-								<FormItem>
-									<FormControl>
-										<div className="flex items-center gap-1 border p-2 rounded-md bg-zinc-800">
-											<StarIcon />
-											<span className="text-sm">
-												Premium
-											</span>
-											<Switch
-												checked={field.value}
-												onCheckedChange={field.onChange}
-											/>
-										</div>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="is_published"
-							render={({ field }) => (
-								<FormItem>
-									<FormControl>
-										<div className="flex items-center gap-1 border p-2 rounded-md bg-zinc-800">
-											<RocketIcon />
-
-											<span className="text-sm">
-												Publish
-											</span>
-											<Switch
-												checked={field.value}
-												onCheckedChange={field.onChange}
-											/>
-										</div>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
 					</div>
 
 					<button

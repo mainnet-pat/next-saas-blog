@@ -89,7 +89,7 @@ export const defaultCreateBlog: IBlogDetial = {
 	},
 	user_id: "",
 	addresses: {},
-	target_usd: 100,
+	target_usd: 0,
 };
 export const users = [
 	{

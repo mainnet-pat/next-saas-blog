@@ -53,6 +53,17 @@ export const BlogFormSchema = z
 			message: "Currently we are supporting only the image from unsplash",
 			path: ["image_url"],
 		}
+	).refine(
+		(data) => {
+			if (!SupportedChains.some((chain) => data[`addresses_${chain}`])) {
+				return false;
+			}
+			return true;
+		},
+		{
+			message: "At least one chain address is required",
+			path: ["addresses"],
+		}
 	);
 
 export type BlogFormSchemaType = z.infer<typeof BlogFormSchema>;

@@ -6,10 +6,11 @@ import Link from "next/link";
 import { IBlog } from "@/lib/types";
 import SwitchForm from "./SwitchForm";
 import DeleteAlert from "./DeleteAlert";
-import { readBlogAdmin, updateBlogById } from "@/lib/actions/blog";
+import { readOwnBlogs, readPremoderaionBlogs, updateBlogById } from "@/lib/actions/blog";
 
-export default async function BlogTable() {
-	const { data: blogs } = await readBlogAdmin();
+export default async function BlogTable({ kind = "own"} : {kind: "own" | "moderation"}) {
+	const { data: blogs } = kind === "own" ? await readOwnBlogs() : await readPremoderaionBlogs();
+	const isModeration = kind === "moderation";
 
 	return (
 		<>
@@ -17,19 +18,12 @@ export default async function BlogTable() {
 				<div className="w-[800px] md:w-full">
 					<div className="grid grid-cols-5 border-b p-5 dark:text-gray-500">
 						<h1 className=" col-span-2">Title</h1>
-						<h1>Premium</h1>
-						<h1>Publish</h1>
+						<h1>Published</h1>
+						<h1>Target</h1>
+						<h1>Actions</h1>
 					</div>
 					<div className="space-y-10 p-5">
 						{blogs?.map((blog, index) => {
-							const updatePremium = updateBlogById.bind(
-								null,
-								blog.id,
-								{
-									is_premium: !blog.is_premium,
-								} as IBlog
-							);
-
 							const updatePulished = updateBlogById.bind(
 								null,
 								blog.id,
@@ -43,19 +37,19 @@ export default async function BlogTable() {
 									<h1 className="dark:text-gray-200 col-span-2 font-lg font-medium">
 										{blog.title}
 									</h1>
-									<SwitchForm
-										checked={blog.is_premium}
-										onSubmit={updatePremium}
-										name="premium"
-									/>
 
 									<SwitchForm
 										checked={blog.is_published}
 										onSubmit={updatePulished}
 										name="publish"
+										disabled={!isModeration}
 									/>
 
-									<Actions id={blog.id} />
+									<h1 className="dark:text-gray-200 font-lg font-medium">
+										${blog.target_usd}
+									</h1>
+
+									<Actions canUpdate={!(blog.is_published && !isModeration)} id={blog.id} />
 								</div>
 							);
 						})}
@@ -66,9 +60,9 @@ export default async function BlogTable() {
 	);
 }
 
-const Actions = ({ id }: { id: string }) => {
+const Actions = ({ id, canUpdate }: { id: string, canUpdate: boolean }) => {
 	return (
-		<div className="flex items-center gap-2 md:flex-wrap">
+		<div className="flex items-center gap-2 flex-wrap">
 			{/* TODO: change to id */}
 			<Link href={`/blog/${id}`}>
 				<Button className="flex gap-2 items-center" variant="outline">
@@ -76,10 +70,10 @@ const Actions = ({ id }: { id: string }) => {
 					View
 				</Button>
 			</Link>
-			<DeleteAlert id={id} />
+			<DeleteAlert disabled={!canUpdate} id={id} />
 
-			<Link href={`/dashboard/blog/edit/${id}`}>
-				<Button className="flex gap-2 items-center" variant="outline">
+			<Link className={canUpdate ? "" : "pointer-events-none cursor-not-allowed"} href={`/dashboard/blog/edit/${id}`}>
+				<Button disabled={!canUpdate} className="flex gap-2 items-center" variant="outline">
 					<Pencil1Icon />
 					Edit
 				</Button>

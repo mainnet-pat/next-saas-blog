@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { RocketIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
+import AddressAlert from "./AddressAlert";
 
 const filterData = (data: ExplData, showZeroBalances: boolean = false): ExplData => {
   return Object.fromEntries(Object.entries(data).map(([chain, { totalRaised, allEvents }]) => {
@@ -70,17 +71,27 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
     setMergedEvents(filterEvents(rawEvents, showZeroBalances));
   }, [showZeroBalances, rawData]);
 
+  const showPopup = (chain: string, address: string) => {
+
+  };
+
 	if (loading) {
 		return <BlogContentLoading />;
 	}
 
 	return (
     <div>
-      <div>User is raising funds on following blockcains:</div>
-      { Object.entries(addresses).map(([chain, address]: any) => chain).join(", ")}
+      <div>User is raising funds on following blockcains (click to view address):</div>
+      <div className="flex flex-wrap gap-5 justify-center">
+        { Object.entries(addresses).map(([chain, address]: any) => (
+          <div key={chain}>
+            <AddressAlert chain={chain} address={address}>
+            </AddressAlert>
+          </div>
+        ))}
+      </div>
       <div>Total raised ${totalRaisedUsd} of ${blog.target_usd}</div>
       <Progress value={totalRaisedUsd/blog.target_usd*100} max={blog.target_usd} />
-      {/* { JSON.stringify(addresses) } */}
       <div className="flex justify-between gap-1 border p-2 rounded-md">
         <div className="flex items-center">History</div>
         <div className="flex justify-end">
@@ -118,9 +129,9 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
                 {chain}
               </div>
               { data.allEvents.map((event,index) =>
-                (<>
+                (
                   <div key={`${chain}-${index}`}>{moment(event.time).fromNow()} - {event.amount} { event.currency.symbol } {`($${event.amountUsd.toFixed(2)})`}</div>
-                </>))
+                ))
               }
             </div>
           );

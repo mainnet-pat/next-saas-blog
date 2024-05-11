@@ -31,7 +31,7 @@ export async function createBlog(data: {
 	} else {
 		const result = await supabase
 			.from("blog_content")
-			.insert({ blog_id: blogResult?.data?.id!, content: data.content });
+			.insert({ blog_id: blogResult?.data?.id!, content: data.content, user_id: data.user_id });
 
 		revalidatePath(DASHBOARD);
 		return JSON.stringify(result);
@@ -54,6 +54,33 @@ export async function readBlogAdmin() {
 	return supabase
 		.from("blog")
 		.select("*")
+		.order("created_at", { ascending: true });
+}
+
+export async function readOwnBlogs() {
+	const supabase = await createSupabaseServerClient();
+	const user_id = (await supabase.auth.getSession()).data?.session?.user.id;
+	if (!user_id) {
+		return {data: []};
+	}
+	return supabase
+		.from("blog")
+		.select("*")
+		.eq("user_id", user_id)
+		.order("created_at", { ascending: true });
+}
+
+export async function readPremoderaionBlogs() {
+	const supabase = await createSupabaseServerClient();
+	const user_id = (await supabase.auth.getSession()).data?.session?.user.id;
+	if (!user_id) {
+		return {data: []};
+	}
+	return supabase
+		.from("blog")
+		.select("*")
+		.neq("user_id", user_id)
+		.eq("is_published", false)
 		.order("created_at", { ascending: true });
 }
 

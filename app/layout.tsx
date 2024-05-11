@@ -13,25 +13,25 @@ export const metadata: Metadata = {
 	metadataBase: new URL("https://rogerweb.vercel.app/"),
 
 	title: {
-		template: "%s | Daily Blog",
-		default: "Daily Blog",
+		template: "%s | RogerWeb",
+		default: "RogerWeb",
 	},
 	authors: {
-		name: "chensokheng",
+		name: "arbius",
 	},
 
 	description:
 		"Explore a world of captivating stories and insightful articles on our blog. From the latest trends to in-depth analyses, our blog covers a wide range of topics to keep you informed and entertained. Join our community of readers and discover thought-provoking content that sparks curiosity and fosters discussion. Stay updated with our diverse collection of blog posts, written by passionate contributors who share their expertise and unique perspectives. Engage with a platform that goes beyond the ordinary, providing you with enriching content that resonates with your interests.",
 	openGraph: {
-		title: "Daily Blog",
+		title: "RogerWeb",
 		description:
 			"Explore a world of captivating stories and insightful articles on our blog. From the latest trends to in-depth analyses, our blog covers a wide range of topics to keep you informed and entertained. Join our community of readers and discover thought-provoking content that sparks curiosity and fosters discussion. Stay updated with our diverse collection of blog posts, written by passionate contributors who share their expertise and unique perspectives. Engage with a platform that goes beyond the ordinary, providing you with enriching content that resonates with your interests.",
 		url: "https://rogerweb.vercel.app/",
-		siteName: "Daily Blog",
+		siteName: "RogerWeb",
 		images: "/og.png",
 		type: "website",
 	},
-	keywords: ["daily web coding", "chensokheng", "dailywebcoding"],
+	keywords: ["rogerweb", "arbius"],
 };
 
 export default function RootLayout({

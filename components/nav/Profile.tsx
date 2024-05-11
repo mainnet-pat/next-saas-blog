@@ -20,7 +20,6 @@ export default function Profile() {
 		await supabase.auth.signOut();
 		setUser(null);
 	};
-	const isAdmin = user?.role === "admin";
 
 	return (
 		<Popover>
@@ -39,16 +38,14 @@ export default function Profile() {
 					<p className="text-sm text-gray-500">{user?.email}</p>
 				</div>
 
-				{isAdmin && (
-					<Link href="/dashboard">
-						<Button
-							variant="ghost"
-							className="w-full flex justify-between items-center"
-						>
-							Dashboard <DashboardIcon />
-						</Button>
-					</Link>
-				)}
+				<Link href="/dashboard">
+					<Button
+						variant="ghost"
+						className="w-full flex justify-between items-center"
+					>
+						Dashboard <DashboardIcon />
+					</Button>
+				</Link>
 
 				<Button
 					variant="ghost"
