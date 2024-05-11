@@ -92,9 +92,8 @@ export default async function Login({
           href="/signup"
           className="rounded-md no-underline text-foreground text-sm"
         >
-          Don't have an Account? Sign Up
+          {`Don't have an Account? Sign Up`}
         </Link>
-        <LoginForm/>
       </div>
     </div>
   );

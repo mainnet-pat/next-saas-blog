@@ -1,16 +1,13 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import Link from 'next/link'
+import LoginForm from './LoginForm'
 
 const SingupNav = () => {
   return (
     <>
         <div>
-            <Link href={"/login"}>
-                <Button>
-                    Login
-                </Button>
-            </Link>
+            <LoginForm/>
         </div>
         <div>
             <Link href={"/singup"}>

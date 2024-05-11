@@ -14,7 +14,6 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "avatars.githubusercontent.com",
 			},
-			//Added this because i had an error with an icon png.
 			{
 				protocol: "https",
 				hostname: "rogerweb.vercel.app",

@@ -14,8 +14,7 @@ export default function SessisonProvider() {
 
 	useEffect(() => {
 		readSession();
-		// eslint-disable-next-line
-	}, []);
+	});
 
 	const readSession = async () => {
 		const { data: userSesssion } = await supabase.auth.getSession();
