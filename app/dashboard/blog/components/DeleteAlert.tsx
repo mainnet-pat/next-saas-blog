@@ -6,6 +6,7 @@ import {
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
+	AlertDialogOverlay,
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
@@ -51,6 +52,7 @@ export default function DeleteAlert({ id, disabled }: { id: string, disabled: bo
 					Delete
 				</Button>
 			</AlertDialogTrigger>
+			<AlertDialogOverlay />
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>
