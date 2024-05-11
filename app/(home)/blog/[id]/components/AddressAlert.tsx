@@ -38,17 +38,18 @@ export default function AddressAlert({ chain, address }: { chain: string, addres
 						{`${chainName} Address`}
 					</AlertDialogTitle>
 				</AlertDialogHeader>
-						<div className="flex items-center justify-center flex-col gap-4">
-							<qr-code
-              	contents={address as any}
-								module-color="#13532d"
-								position-ring-color="#13532d"
-								position-center-color="#13532d"
-								style={{ width: "260px", height: "260px", margin: "5px auto 0 auto", backgroundColor: "#fff" }}>
-									<Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} title={chain} width={96} height={96} slot="icon" />
-								</qr-code>
-							<div>{renderAddress}</div>
-						</div>
+					<div className="flex items-center justify-center flex-col gap-4">
+						{ /* @ts-expect-error */ }
+						<qr-code
+							contents={address as any}
+							module-color="#13532d"
+							position-ring-color="#13532d"
+							position-center-color="#13532d"
+							style={{ width: "260px", height: "260px", margin: "5px auto 0 auto", backgroundColor: "#fff" }}>
+								<Image src={`https://3xpl.com/3xpl-assets/${chain}/logo_dark.svg`} alt={chain} title={chain} width={96} height={96} slot="icon" />
+						</qr-code>
+						<div>{renderAddress}</div>
+					</div>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Close</AlertDialogCancel>
 				</AlertDialogFooter>

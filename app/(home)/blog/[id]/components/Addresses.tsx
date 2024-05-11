@@ -85,8 +85,7 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
       <div className="flex flex-wrap gap-5 justify-center">
         { Object.entries(addresses).map(([chain, address]: any) => (
           <div key={chain}>
-            <AddressAlert chain={chain} address={address}>
-            </AddressAlert>
+            <AddressAlert chain={chain} address={address} />
           </div>
         ))}
       </div>
