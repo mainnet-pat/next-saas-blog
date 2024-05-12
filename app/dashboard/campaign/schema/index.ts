@@ -16,7 +16,7 @@ export const SupportedChains = [
 	"tron",
 ];
 
-export const BlogFormSchema = z
+export const CampaignFormSchema = z
 	.object({
 		title: z.string().min(10, {
 			message: "title is too short",
@@ -66,4 +66,4 @@ export const BlogFormSchema = z
 		}
 	);
 
-export type BlogFormSchemaType = z.infer<typeof BlogFormSchema>;
+export type CampaignFormSchemaType = z.infer<typeof CampaignFormSchema>;

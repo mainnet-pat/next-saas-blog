@@ -1,6 +1,6 @@
-import { IBlogDetial } from "./types";
+import { ICampaignDetial } from "./types";
 
-export const blogDeafultValue = `
+export const campaignDeafultValue = `
 ## Serendipity Chronicles: Tales from a Random Blog
 
 As we wrap up our adventures, let's reflect on the serendipitous moments that defined this journey. The JavaScript snippet below captures a moment of serendipity in code:
@@ -18,7 +18,7 @@ console.log(\`Serendipity at its finest: \${randomSerendipity}\`);
 
 `;
 
-export const blogs = [
+export const campaigns = [
 	{
 		id: `1`,
 		title: "Random Blog Adventures",
@@ -27,7 +27,7 @@ export const blogs = [
 		created_at: "2023-05-15",
 		is_premium: true,
 		is_published: true,
-		content: blogDeafultValue,
+		content: campaignDeafultValue,
 	},
 	{
 		id: "2",
@@ -39,7 +39,7 @@ export const blogs = [
 		is_premium: false,
 		is_published: false,
 
-		content: blogDeafultValue,
+		content: campaignDeafultValue,
 	},
 	{
 		id: "3",
@@ -50,7 +50,7 @@ export const blogs = [
 		created_at: "2023-08-10",
 		is_premium: false,
 		is_published: false,
-		content: blogDeafultValue,
+		content: campaignDeafultValue,
 	},
 	{
 		id: "4",
@@ -61,7 +61,7 @@ export const blogs = [
 		is_premium: true,
 		is_published: false,
 
-		content: blogDeafultValue,
+		content: campaignDeafultValue,
 	},
 	{
 		id: "5",
@@ -71,21 +71,21 @@ export const blogs = [
 		created_at: "2023-10-05",
 		is_premium: false,
 		is_published: false,
-		content: blogDeafultValue,
+		content: campaignDeafultValue,
 	},
 ];
 
-export const defaultCreateBlog: IBlogDetial = {
+export const defaultCreateCampaign: ICampaignDetial = {
 	id: "",
 	title: "",
 	image_url: "",
 	created_at: "",
 	is_premium: false,
 	is_published: false,
-	blog_content: {
+	campaign_content: {
 		created_at: "",
 		content: "",
-		blog_id: "",
+		campaign_id: "",
 	},
 	user_id: "",
 	addresses: {},

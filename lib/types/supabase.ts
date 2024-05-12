@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      blog: {
+      campaign: {
         Row: {
           addresses: Json
           created_at: string
@@ -45,7 +45,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "blog_user_id_fkey"
+            foreignKeyName: "campaign_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -53,28 +53,28 @@ export type Database = {
           },
         ]
       }
-      blog_content: {
+      campaign_content: {
         Row: {
-          blog_id: string
+          campaign_id: string
           content: string
           created_at: string
         }
         Insert: {
-          blog_id: string
+          campaign_id: string
           content: string
           created_at?: string
         }
         Update: {
-          blog_id?: string
+          campaign_id?: string
           content?: string
           created_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "blog_content_blog_id_fkey"
-            columns: ["blog_id"]
+            foreignKeyName: "campaign_content_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: true
-            referencedRelation: "blog"
+            referencedRelation: "campaign"
             referencedColumns: ["id"]
           },
         ]

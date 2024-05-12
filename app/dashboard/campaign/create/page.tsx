@@ -2,18 +2,18 @@
 import React from "react";
 
 import { toast } from "@/components/ui/use-toast";
-import { defaultCreateBlog } from "@/lib/data";
+import { defaultCreateCampaign } from "@/lib/data";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
-import BlogForm from "../components/BlogForm";
-import { createBlog } from "../../../../lib/actions/blog";
-import { BlogFormSchemaType } from "../schema";
+import CampaignForm from "../components/CampaignForm";
+import { createCampaign } from "../../../../lib/actions/campaign";
+import { CampaignFormSchemaType } from "../schema";
 import { useRouter } from "next/navigation";
 
 export default function CreateForm() {
 	const router = useRouter();
 
-	const onHandleSubmit = async (data: BlogFormSchemaType) => {
-		const result = JSON.parse(await createBlog(data as any));
+	const onHandleSubmit = async (data: CampaignFormSchemaType) => {
+		const result = JSON.parse(await createCampaign(data as any));
 
 		const { error } = result as PostgrestSingleResponse<null>;
 		if (error?.message) {
@@ -35,9 +35,9 @@ export default function CreateForm() {
 	};
 
 	return (
-		<BlogForm
+		<CampaignForm
 			onHandleSubmit={onHandleSubmit}
-			defaultBlog={defaultCreateBlog}
+			defaultCampaign={defaultCreateCampaign}
 		/>
 	);
 }

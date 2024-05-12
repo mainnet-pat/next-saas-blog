@@ -24,43 +24,43 @@ import {
 	StarIcon,
 } from "@radix-ui/react-icons";
 import { ReactNode, useState, useTransition } from "react";
-import { IBlogDetial, IBlogForm } from "@/lib/types";
+import { ICampaignDetial, ICampaignForm } from "@/lib/types";
 import { Switch } from "@/components/ui/switch";
 import { BsSave } from "react-icons/bs";
-import { BlogFormSchema, BlogFormSchemaType, SupportedChains } from "../schema";
+import { CampaignFormSchema, CampaignFormSchemaType, SupportedChains } from "../schema";
 import { useUser } from "@/lib/store/user";
 
-export default function BlogForm({
+export default function CampaignForm({
 	onHandleSubmit,
-	defaultBlog,
+	defaultCampaign,
 }: {
-	defaultBlog: IBlogDetial;
-	onHandleSubmit: (data: BlogFormSchemaType) => void;
+	defaultCampaign: ICampaignDetial;
+	onHandleSubmit: (data: CampaignFormSchemaType) => void;
 }) {
 	const [isPending, startTransition] = useTransition();
 	const [isPreview, setPreivew] = useState(false);
 	const user = useUser((state) => state.user);
 
 	const chains = SupportedChains;
-	const form = useForm<z.infer<typeof BlogFormSchema>>({
+	const form = useForm<z.infer<typeof CampaignFormSchema>>({
 		mode: "all",
-		resolver: zodResolver(BlogFormSchema),
+		resolver: zodResolver(CampaignFormSchema),
 		defaultValues: {
-			title: defaultBlog?.title,
-			content: defaultBlog?.blog_content.content,
-			image_url: defaultBlog?.image_url,
-			is_premium: defaultBlog?.is_premium,
-			is_published: defaultBlog?.is_published,
-			addresses: defaultBlog?.addresses,
-			target_usd: defaultBlog?.target_usd,
-			user_id: defaultBlog?.user_id,
+			title: defaultCampaign?.title,
+			content: defaultCampaign?.campaign_content.content,
+			image_url: defaultCampaign?.image_url,
+			is_premium: defaultCampaign?.is_premium,
+			is_published: defaultCampaign?.is_published,
+			addresses: defaultCampaign?.addresses,
+			target_usd: defaultCampaign?.target_usd,
+			user_id: defaultCampaign?.user_id,
 			...chains.map((chain) => ({
-					[`addresses_${chain}`]: defaultBlog?.addresses[chain],
+					[`addresses_${chain}`]: defaultCampaign?.addresses[chain],
 				})).reduce((acc, curr) => ({ ...acc, ...curr }), {}),
 		},
 	});
 
-	const onSubmit = (data: z.infer<typeof BlogFormSchema>) => {
+	const onSubmit = (data: z.infer<typeof CampaignFormSchema>) => {
 		startTransition(() => {
 			data.user_id = data.user_id || user?.id!;
 			SupportedChains.forEach((chain) => {
@@ -139,7 +139,7 @@ export default function BlogForm({
 										)}
 									>
 										<Input
-											placeholder="Blog title"
+											placeholder="Campaign title"
 											{...field}
 											autoFocus
 											className={cn(
@@ -159,7 +159,7 @@ export default function BlogForm({
 										>
 											<h1 className="text-3xl font-bold dark:text-gray-200">
 												{form.getValues().title ||
-													"Untittle blog"}
+													"Untitled campaign"}
 											</h1>
 										</div>
 									</div>
@@ -255,7 +255,7 @@ export default function BlogForm({
 									)}
 								>
 									<Textarea
-										placeholder="Blog content"
+										placeholder="Campaign content"
 										{...field}
 										className={cn(
 											"border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500  h-70vh resize-none",

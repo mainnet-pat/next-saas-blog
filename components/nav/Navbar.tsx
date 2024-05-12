@@ -13,7 +13,7 @@ export default function Navbar() {
 		<nav className="w-full justify-between items-center flex p-5 xl:p-0">
 			<HoverUnderLine>
 				<Link href={"/"} className="font-bold text-2xl">
-					DailyMedia
+					RogerWeb
 				</Link>
 			</HoverUnderLine>
 			<div className="flex justify-content-between space-x-4">

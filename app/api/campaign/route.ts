@@ -12,11 +12,11 @@ export async function GET(request: Request) {
 	const id = searchParams.get("id");
 
 	if (id === "*") {
-		const result = await supabase.from("blog").select("id").limit(10);
+		const result = await supabase.from("campaign").select("id").limit(10);
 		return Response.json({ ...result });
 	} else if (id) {
 		const result = await supabase
-			.from("blog")
+			.from("campaign")
 			.select("*")
 			.eq("id", id)
 			.single();

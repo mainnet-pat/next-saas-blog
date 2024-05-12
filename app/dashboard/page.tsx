@@ -1,15 +1,15 @@
 import React from "react";
-import BlogTable from "./blog/components/BlogTable";
+import CampaignTable from "./campaign/components/CampaignTable";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusIcon } from "@radix-ui/react-icons";
 
-export default function Blog() {
+export default function Campaign() {
 	return (
 		<div className="space-y-5">
 			<div className="flex items-center justify-between">
-				<h1 className="text-3xl font-bold">Blogs</h1>
-				<Link href="/dashboard/blog/create">
+				<h1 className="text-3xl font-bold">Campaigns</h1>
+				<Link href="/dashboard/campaign/create">
 					<Button
 						className="flex items-center gap-2 "
 						variant="outline"
@@ -19,7 +19,7 @@ export default function Blog() {
 				</Link>
 			</div>
 
-			<BlogTable kind="own"/>
+			<CampaignTable kind="own"/>
 		</div>
 	);
 }

@@ -3,13 +3,13 @@ import MarkdownPreview from "@/components/markdown/MarkdownPreview";
 import { Database } from "@/lib/types/supabase";
 import { createBrowserClient } from "@supabase/ssr";
 import React, { useEffect, useState, useTransition } from "react";
-import { BlogContentLoading } from "./Skeleton";
+import { CampaignContentLoading } from "./Skeleton";
 
-export default function Content({ blogId }: { blogId: string }) {
+export default function Content({ campaignId }: { campaignId: string }) {
 	const [loading, setLoading] = useState(true);
 
-	const [blog, setBlog] = useState<{
-		blog_id: string;
+	const [campaign, setCampaign] = useState<{
+		campaign_id: string;
 		content: string;
 		created_at: string;
 	} | null>();
@@ -19,25 +19,25 @@ export default function Content({ blogId }: { blogId: string }) {
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	);
 
-	const readBlogContent = async () => {
+	const readCampaignContent = async () => {
 		const { data } = await supabase
-			.from("blog_content")
+			.from("campaign_content")
 			.select("*")
-			.eq("blog_id", blogId)
+			.eq("campaign_id", campaignId)
 			.single();
-		setBlog(data);
+		setCampaign(data);
 		setLoading(false);
 	};
 
 	useEffect(() => {
-		readBlogContent();
+		readCampaignContent();
 
 		// eslint-disable-next-line
 	}, []);
 
 	if (loading) {
-		return <BlogContentLoading />;
+		return <CampaignContentLoading />;
 	}
 
-	return <MarkdownPreview content={blog?.content || ""} />;
+	return <MarkdownPreview content={campaign?.content || ""} />;
 }

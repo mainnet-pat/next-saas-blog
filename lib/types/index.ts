@@ -1,4 +1,4 @@
-export type IBlog = {
+export type ICampaign = {
 	id: string;
 	title: string;
 	image_url: string;
@@ -11,15 +11,15 @@ export type IBlog = {
 	user_id: string;
 };
 
-export type IBlogDetial = {
+export type ICampaignDetial = {
 	created_at: string;
 	id: string;
 	image_url: string;
 	is_premium: boolean;
 	is_published: boolean;
 	title: string;
-	blog_content: {
-		blog_id: string;
+	campaign_content: {
+		campaign_id: string;
 		content: string;
 		created_at: string;
 	};
@@ -28,15 +28,15 @@ export type IBlogDetial = {
 	user_id: string;
 } | null;
 
-export type IBlogForm = {
+export type ICampaignForm = {
 	created_at: string;
 	id: string;
 	image_url: string;
 	is_premium: boolean;
 	is_published: boolean;
 	title: string;
-	blog_content: {
-		blog_id: string;
+	campaign_content: {
+		campaign_id: string;
 		content: string;
 		created_at: string;
 	};

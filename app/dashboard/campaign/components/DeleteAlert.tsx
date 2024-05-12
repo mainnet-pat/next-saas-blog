@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { deleteBlogById } from "../../../../lib/actions/blog";
+import { deleteCampaignById } from "../../../../lib/actions/campaign";
 import { ChangeEvent, useTransition } from "react";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { toast } from "@/components/ui/use-toast";
@@ -25,7 +25,7 @@ export default function DeleteAlert({ id, disabled }: { id: string, disabled: bo
 		e.preventDefault();
 		startTransition(async () => {
 			const { error } = JSON.parse(
-				await deleteBlogById(id)
+				await deleteCampaignById(id)
 			) as PostgrestSingleResponse<null>;
 			if (error) {
 				toast({
@@ -60,7 +60,7 @@ export default function DeleteAlert({ id, disabled }: { id: string, disabled: bo
 					</AlertDialogTitle>
 					<AlertDialogDescription>
 						This action cannot be undone. This will permanently
-						delete your blog and remove your data from our servers.
+						delete your campaign and remove your data from our servers.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

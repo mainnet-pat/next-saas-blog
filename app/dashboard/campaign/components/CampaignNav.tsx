@@ -2,7 +2,7 @@ import HoverUnderLine from "@/components/nav/HoverUnderLine";
 import Link from "next/link";
 import React from "react";
 
-export default function BlogNav({ path }: { path: string }) {
+export default function CampaignNav({ path }: { path: string }) {
 	return (
 		<div className="flex items-center  gap-2">
 			<Link href="/dashboard">

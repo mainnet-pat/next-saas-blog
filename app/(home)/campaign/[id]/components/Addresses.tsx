@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { BlogContentLoading } from "./Skeleton";
+import { CampaignContentLoading } from "./Skeleton";
 import { ExplData, ExplEvent, parse3xplData } from "./3xpl";
-import { IBlog } from "@/lib/types";
+import { ICampaign } from "@/lib/types";
 import moment from "moment";
 import { Switch } from "@/components/ui/switch";
 import { RocketIcon } from "@radix-ui/react-icons";
@@ -26,7 +26,7 @@ const filterEvents = (events: ExplEvent[], showZeroBalances: boolean = false): E
   return showZeroBalances ? events : events.filter(({ amountUsd }) => amountUsd > 0);
 }
 
-export default function Content({ addresses, blog }: { addresses: any, blog: IBlog }) {
+export default function Content({ addresses, campaign }: { addresses: any, campaign: ICampaign }) {
 	const [loading, setLoading] = useState(true);
   const [totalRaisedUsd, setTotalRaisedUsd] = useState(0);
   const [rawData, setRawData] = useState<ExplData>({});
@@ -71,12 +71,8 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
     setMergedEvents(filterEvents(rawEvents, showZeroBalances));
   }, [showZeroBalances, rawData]);
 
-  const showPopup = (chain: string, address: string) => {
-
-  };
-
 	if (loading) {
-		return <BlogContentLoading />;
+		return <CampaignContentLoading />;
 	}
 
 	return (
@@ -89,8 +85,8 @@ export default function Content({ addresses, blog }: { addresses: any, blog: IBl
           </div>
         ))}
       </div>
-      <div>Total raised ${totalRaisedUsd} of ${blog.target_usd}</div>
-      <Progress value={totalRaisedUsd/blog.target_usd*100} max={blog.target_usd} />
+      <div>Total raised ${totalRaisedUsd} of ${campaign.target_usd}</div>
+      <Progress value={totalRaisedUsd/campaign.target_usd*100} max={campaign.target_usd} />
       <div className="flex justify-between gap-1 border p-2 rounded-md">
         <div className="flex items-center">History</div>
         <div className="flex justify-end">

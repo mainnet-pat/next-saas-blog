@@ -3,19 +3,19 @@ import React from "react";
 
 import { toast } from "@/components/ui/use-toast";
 
-import BlogForm from "../../../components/BlogForm";
-import { IBlogDetial } from "@/lib/types";
-import { BlogFormSchemaType } from "../../../schema";
-import { updateBlogDetail } from "../../../../../../lib/actions/blog";
+import CampaignForm from "../../../components/CampaignForm";
+import { ICampaignDetial } from "@/lib/types";
+import { CampaignFormSchemaType } from "../../../schema";
+import { updateCampaignDetail } from "../../../../../../lib/actions/campaign";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { redirect, useRouter } from "next/navigation";
 
-export default function EditForm({ blog }: { blog: IBlogDetial }) {
+export default function EditForm({ campaign }: { campaign: ICampaignDetial }) {
 	const router = useRouter();
 
-	const onHandleSubmit = async (data: BlogFormSchemaType) => {
+	const onHandleSubmit = async (data: CampaignFormSchemaType) => {
 		const result = JSON.parse(
-			await updateBlogDetail(blog?.id!, data)
+			await updateCampaignDetail(campaign?.id!, data)
 		) as PostgrestSingleResponse<null>;
 		if (result.error) {
 			toast({
@@ -36,5 +36,5 @@ export default function EditForm({ blog }: { blog: IBlogDetial }) {
 		}
 	};
 
-	return <BlogForm onHandleSubmit={onHandleSubmit} defaultBlog={blog} />;
+	return <CampaignForm onHandleSubmit={onHandleSubmit} defaultCampaign={campaign} />;
 }

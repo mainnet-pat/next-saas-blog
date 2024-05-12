@@ -1,14 +1,14 @@
 import React from "react";
-import BlogTable from "../blog/components/BlogTable";
+import CampaignTable from "../campaign/components/CampaignTable";
 
-export default function Blog() {
+export default function Campaign() {
 	return (
 		<div className="space-y-5">
 			<div className="flex items-center justify-between">
-				<h1 className="text-3xl font-bold">Blogs for moderation</h1>
+				<h1 className="text-3xl font-bold">Campaigns for moderation</h1>
 			</div>
 
-			<BlogTable kind="moderation" />
+			<CampaignTable kind="moderation" />
 		</div>
 	);
 }
