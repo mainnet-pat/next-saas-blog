@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 export async function GET(request: Request) {
 	const requestUrl = new URL(request.url);
 	const isAuth = cookies().get("supabase-auth-token") || cookies().get(
-		"sb-lrmfxhevtqffddrhwwlm-auth-token"
+		`sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}-auth-token`
 	);
 
 	if (isAuth) {

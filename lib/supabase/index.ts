@@ -36,7 +36,7 @@ export async function fetchCacheSupabase(query: string) {
 	const cookieStore = cookies();
 
 	const authToken = cookieStore.get(
-		"sb-lrmfxhevtqffddrhwwlm-auth-token"
+		`sb-${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}-auth-token`
 	)?.value;
 
 	let headers = {};
