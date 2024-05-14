@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import LoginForm from '@/components/nav/LoginForm';
-import CheckUserEmail from './checkUserEmail';
 
 export default async function Signup({
   searchParams,
@@ -56,7 +55,6 @@ export default async function Signup({
 
   return (
     <div>
-      <CheckUserEmail email="sssee"></CheckUserEmail>
       <div className="w-full px-8 sm:max-w-md mx-auto mt-4">
         <form
           className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground mb-4"
