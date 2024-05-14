@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import LoginForm from '@/components/nav/LoginForm';
+import CheckUserEmail from './checkUserEmail';
 
 export default async function Signup({
   searchParams,
@@ -20,15 +21,17 @@ export default async function Signup({
   if (session) {
     return redirect('/');
   }
-
   const signUp = async (formData: FormData) => {
     'use server';
-
     const origin = headers().get('origin');
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
     const supabase = createClient();
+    
+    // Check if the user already exists in Supabase
+  
+  
     if (password !== confirmPassword) {
       return redirect('/signup?message=Passwords do not match');
     }
@@ -53,6 +56,7 @@ export default async function Signup({
 
   return (
     <div>
+      <CheckUserEmail email="sssee"></CheckUserEmail>
       <div className="w-full px-8 sm:max-w-md mx-auto mt-4">
         <form
           className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground mb-4"
