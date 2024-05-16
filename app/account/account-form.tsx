@@ -8,6 +8,7 @@ export default function AccountForm({ user }: { user: User | null }) {
   const [loading, setLoading] = useState(true)
   const [fullname, setFullname] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
+  const [website, setWebsite] = useState<string | null>(null)
   const [avatar_url, setAvatarUrl] = useState<string | null>(null)
 
   const getProfile = useCallback(async () => {
@@ -17,19 +18,20 @@ export default function AccountForm({ user }: { user: User | null }) {
       const { data, error, status } = await supabase
         .from('users')
         .select(`email`)
-        .eq('id', user?.id)
+        .eq('email', 'jorgevillacreces1@gmail.com')
         .single()
 
-        console.log(data)
+      console.log(data)
       if (error && status !== 406) {
         console.log(error)
         throw error
       }
 
       if (data) {
-        setFullname(data.full_name)
-        setUsername(data.username)
-        setAvatarUrl(data.avatar_url)
+        // setFullname(data.full_name)
+        // setUsername(data.username)
+        // setWebsite(data.website)
+        // setAvatarUrl(data.avatar_url)
       }
     } catch (error) {
       alert('Error loading user data!')
@@ -44,10 +46,12 @@ export default function AccountForm({ user }: { user: User | null }) {
 
   async function updateProfile({
     username,
+    website,
     avatar_url,
   }: {
     username: string | null
     fullname: string | null
+    website: string | null
     avatar_url: string | null
   }) {
     try {
@@ -57,6 +61,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         id: user?.id as string,
         full_name: fullname,
         username,
+        website,
         avatar_url,
         updated_at: new Date().toISOString(),
       })
@@ -94,9 +99,19 @@ export default function AccountForm({ user }: { user: User | null }) {
         />
       </div>
       <div>
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          type="url"
+          value={website || ''}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
+
+      <div>
         <button
           className="button primary block"
-          onClick={() => updateProfile({ fullname, username, avatar_url })}
+          onClick={() => updateProfile({ fullname, username, website, avatar_url })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
