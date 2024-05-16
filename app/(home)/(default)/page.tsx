@@ -2,15 +2,16 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { readBlog } from "@/lib/actions/blog";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
 	let { data: blogs } = await readBlog();
-
+	
 	if (!blogs?.length) {
 		blogs = [];
 	}
 
-	return (
+	return ( 
 		<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-5 p-5 xl:p-0">
 			{blogs.map((blog, index) => {
 				return (

@@ -20,15 +20,31 @@ export default async function Signup({
   if (session) {
     return redirect('/');
   }
-
   const signUp = async (formData: FormData) => {
     'use server';
-
     const origin = headers().get('origin');
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
     const supabase = createClient();
+    let userExist = false as boolean
+    
+    // Check if the user already exists in Supabase
+    try {
+      const response = await fetch(process.env.SITE_URL + `/api/checkEmail?email=${email}`, {
+        method: 'GET',
+      });
+      const exists = await response.json();
+      if (exists.exists) {
+        userExist = true
+      }
+    } catch(error) {
+      console.log(error)
+    }
+    if (userExist) {
+      return redirect('/signup?message=Email already exists');
+    }
+
     if (password !== confirmPassword) {
       return redirect('/signup?message=Passwords do not match');
     }
