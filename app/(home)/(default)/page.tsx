@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { readBlog } from "@/lib/actions/blog";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
 	let { data: blogs } = await readBlog();
